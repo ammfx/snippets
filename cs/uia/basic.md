@@ -1,4 +1,10 @@
-## 
+## UIA
+Tools for inspecting Windows UIA elements:
+- [VisualUIAVerifyNative.exe](https://learn.microsoft.com/en-us/windows/win32/winauto/ui-automation-verify) (in WindowsSDK)
+- [Inspect.exe](https://learn.microsoft.com/en-us/windows/win32/winauto/inspect-objects) (in WindowsSDK) *(previously UISpy.exe)*
+- https://github.com/snoopwpf/snoopwpf
+- [Spyxx.exe](https://learn.microsoft.com/en-us/visualstudio/debugger/how-to-start-spy-increment) (Visual Studio)
+
 TestProject.csproj
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
