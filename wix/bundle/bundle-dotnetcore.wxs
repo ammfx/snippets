@@ -1,0 +1,42 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+	 xmlns:bal="http://wixtoolset.org/schemas/v4/wxs/bal"
+	 xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util"
+	 xmlns:netfx="http://wixtoolset.org/schemas/v4/wxs/netfx">
+
+	<Bundle Version="1.0.0.0" Name="Bundle2" Manufacturer="CompanyName"
+			UpgradeCode="3318ECBF-BAB3-4B90-9F0F-6311CEC008EB">
+
+		<BootstrapperApplication>
+			<bal:WixStandardBootstrapperApplication LicenseUrl="https://www.example.com/license" Theme="hyperlinkLicense" />
+		</BootstrapperApplication>
+
+
+		<util:RegistrySearch
+			Id="REG_ARCH" Result="value" Variable="ARCH_NAME"
+			Root="HKLM" Key="SYSTEM\CurrentControlSet\Control\Session Manager\Environment"
+			Value="PROCESSOR_ARCHITECTURE" />
+
+		<netfx:DotNetCoreSearch Variable="DOTNET_DESKTOP_INSTALLED_VER"
+			RuntimeType="desktop" MajorVersion="9" Platform="x64" />
+
+		<Variable Name="DOTNET_DESKTOP_REQUIRED_VER" Type="version" Value="9.0.5" />
+
+		<Chain>
+
+			<ExePackage
+				Id="DotNetDesktop9_x64" Bundle="yes" PerMachine="yes" Permanent="yes"
+				InstallCondition="((NOT DOTNET_DESKTOP_INSTALLED_VER) OR (DOTNET_DESKTOP_INSTALLED_VER &lt; DOTNET_DESKTOP_REQUIRED_VER)) AND VersionNT64 AND (ARCH_NAME = &quot;AMD64&quot;)"
+				DetectCondition="(DOTNET_DESKTOP_INSTALLED_VER &gt;= DOTNET_DESKTOP_REQUIRED_VER) AND VersionNT64 AND (ARCH_NAME = &quot;AMD64&quot;)">
+				<ExePackagePayload
+                    Name="windowsdesktop-runtime-9.0.5-win-x64.exe"
+                    ProductName="Microsoft Windows Desktop Runtime - 9.0.5 (x64)"
+                    Hash="89b536b45d2497489f3e96b1d956cb03df97fca14758fcc5b96eb260338036e3d3c8a242d98627e47219abaed65a4b2765226dc71e3753869260701a5a76171c"
+                    Size="60858152" Version="9.0.5.34816"
+                    DownloadUrl="https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/9.0.5/windowsdesktop-runtime-9.0.5-win-x64.exe" />
+			</ExePackage>
+
+			<MsiPackage SourceFile="$(var.Package1.TargetPath)" />
+		</Chain>
+
+	</Bundle>
+</Wix>
